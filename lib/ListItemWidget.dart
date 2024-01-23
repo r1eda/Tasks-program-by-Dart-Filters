@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'ListItem.dart';
 
+// فئة ListItemWidget تمثل واجهة عرض لعنصر ListItem وتتيح تعديل حالته وتعديله.
 class ListItemWidget extends StatelessWidget {
   final ListItem item;
   final VoidCallback onEdit;
 
+  // البناء الرئيسي لإنشاء واجهة ListItemWidget مع عنصر ListItem ودالة التحرير.
   ListItemWidget(this.item, this.onEdit);
 
   @override
@@ -21,6 +23,7 @@ class ListItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ListTile(
+              // إضافة قسم التحقق من العنصر.
               leading: ValueListenableBuilder<bool>(
                 valueListenable: item.isCheckedNotifier,
                 builder: (context, isChecked, child) {
@@ -32,11 +35,13 @@ class ListItemWidget extends StatelessWidget {
                           : const Color.fromARGB(255, 170, 156, 156),
                     ),
                     onPressed: () {
+                      // تحديث حالة التحقق عند النقر على الزر.
                       item.isCheckedNotifier.value = !isChecked;
                     },
                   );
                 },
               ),
+              // عنوان العنصر.
               title: Text(
                 "${item.title}",
                 textAlign: TextAlign.right,
@@ -45,6 +50,7 @@ class ListItemWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              // وصف العنصر.
               subtitle: Text(
                 "${item.description}",
                 textAlign: TextAlign.right,
@@ -52,6 +58,7 @@ class ListItemWidget extends StatelessWidget {
                   fontSize: 14,
                 ),
               ),
+              // إضافة زر التحرير.
               trailing: IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: onEdit,
