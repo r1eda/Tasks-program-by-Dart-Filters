@@ -6,6 +6,7 @@ import 'ListItemWidget.dart';
 import 'theme_provider.dart';
 import 'package:provider/provider.dart';
 
+// فئة List1 هي واجهة المستخدم الرئيسية التي تعرض وتدير قائمة المهام.
 class List1 extends StatefulWidget {
   @override
   _List1State createState() => _List1State();
@@ -22,6 +23,7 @@ class _List1State extends State<List1> {
     _loadData();
   }
 
+  // تحميل البيانات من SharedPreferences عند تشغيل التطبيق.
   void _loadData() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> itemsJson = prefs.getStringList('items') ?? [];
@@ -36,6 +38,7 @@ class _List1State extends State<List1> {
     });
   }
 
+  // حفظ البيانات في SharedPreferences عند إضافة أو تحرير عنصر.
   void _saveData() async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> itemsJson = items.map((item) {
@@ -45,6 +48,7 @@ class _List1State extends State<List1> {
     prefs.setStringList('items', itemsJson);
   }
 
+  // حذف عنصر من القائمة.
   void _deleteTask(int index) {
     setState(() {
       items.removeAt(index);
@@ -52,6 +56,7 @@ class _List1State extends State<List1> {
     });
   }
 
+  // عرض حوار إضافة مهمة جديدة.
   void _showAddTaskDialog() {
     showDialog(
       context: context,
@@ -67,7 +72,6 @@ class _List1State extends State<List1> {
                 decoration: InputDecoration(
                   labelText: 'Title',
                   hintText: 'Enter the task title',
-                  // You can customize more styling options here
                 ),
               ),
               SizedBox(height: 16),
@@ -76,7 +80,6 @@ class _List1State extends State<List1> {
                 decoration: InputDecoration(
                   labelText: 'Description',
                   hintText: 'Enter the task description',
-                  // You can customize more styling options here
                 ),
               ),
             ],
@@ -98,8 +101,8 @@ class _List1State extends State<List1> {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal[500], // Button color
-                onPrimary: Colors.white, // Text color
+                primary: Colors.teal[500],
+                onPrimary: Colors.white,
               ),
               child: Text('Add'),
             ),
@@ -108,7 +111,7 @@ class _List1State extends State<List1> {
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                primary: Colors.teal[500], // Text color
+                primary: Colors.teal[500],
               ),
               child: Text('Cancel'),
             ),
@@ -118,6 +121,7 @@ class _List1State extends State<List1> {
     );
   }
 
+  // عرض حوار تحرير مهمة.
   void _editTask(int index) {
     showDialog(
       context: context,
@@ -133,7 +137,6 @@ class _List1State extends State<List1> {
                 decoration: InputDecoration(
                   labelText: 'Title',
                   hintText: 'Enter the task title',
-                  // You can customize more styling options here
                 ),
               ),
               SizedBox(height: 16),
@@ -143,7 +146,6 @@ class _List1State extends State<List1> {
                 decoration: InputDecoration(
                   labelText: 'Description',
                   hintText: 'Enter the task description',
-                  // You can customize more styling options here
                 ),
               ),
             ],
@@ -161,8 +163,8 @@ class _List1State extends State<List1> {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal[500], // Button color
-                onPrimary: Colors.white, // Text color
+                primary: Colors.teal[500],
+                onPrimary: Colors.white,
               ),
               child: Text('Save'),
             ),
@@ -171,7 +173,7 @@ class _List1State extends State<List1> {
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                primary: Colors.teal[500], // Text color
+                primary: Colors.teal[500],
               ),
               child: Text('Cancel'),
             ),
@@ -198,6 +200,7 @@ class _List1State extends State<List1> {
           ],
         ),
         actions: [
+          // تبديل نمط التطبيق
           InkWell(
             onTap: () {
               themeProvider.toggleTheme();
@@ -231,6 +234,7 @@ class _List1State extends State<List1> {
                       },
                     ),
                   ),
+                  // أيقونة القمر أو الشمس باختلاف نمط التطبيق
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: Icon(
@@ -248,9 +252,9 @@ class _List1State extends State<List1> {
       ),
       body: Stack(
         children: [
-          // Positioned.fill في حالة القائمة فارغة
+          // العرض المركب في حالة عدم وجود مهام
           Visibility(
-            visible: items.isEmpty, // إظهارها فقط إذا كانت القائمة فارغة
+            visible: items.isEmpty,
             child: Positioned.fill(
               child: Center(
                 child: Column(
@@ -274,7 +278,7 @@ class _List1State extends State<List1> {
               ),
             ),
           ),
-          // ListView.builder
+          // عرض القائمة باستخدام ListView.builder
           ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) {
